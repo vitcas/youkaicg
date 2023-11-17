@@ -7,8 +7,30 @@ body {
 img:hover {
   cursor: pointer;
 }
+#comando{
+	display:none;
+}
 .memo{
   color: yellow;
+}
+.gameflow{
+	position: absolute;
+	font-family:Impact;
+	font-size:36px;
+	top:650px;
+	left:950px;
+}
+#phase3{
+	color:#e627c3;
+	display:none;
+}
+#phase4{
+	color:#ed510e;
+	display:none;
+}
+#phase5{
+	color:#8126c7;
+	display:none;
 }
 .previa{
   position: absolute;
@@ -41,7 +63,7 @@ img:hover {
   margin:5px;
   width: 1200px;
   height: 700px;
-  background-image: url("../assets/bg/10.webp");
+  background-image: url("../assets/bg/sfsff.jpg");
   background-repeat: no-repeat;
 }
 #container{
@@ -81,6 +103,11 @@ img:hover {
   position: absolute;
   top: 305px;
   left: 1166px;
+}
+#sec_count{
+  position: absolute;
+  top: 160px;
+  left: 15px;
 }
 #sec1{
   position: absolute;

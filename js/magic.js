@@ -1,3 +1,4 @@
+var gameflow = 0;
 var deck = 50;
 var security = 5;
 var hand = 0;
@@ -11,6 +12,20 @@ var audio2 = new Audio('assets/sounds/SS_00001.wav');
 var audio3 = new Audio('assets/sounds/mixkit-creature-cry-of-hurt-2208.wav');
 var audio4 = new Audio('assets/sounds/mixkit-extra-bonus-in-a-video-game-2045.wav');
 
+function nextPhase(){
+	gameflow++;
+	if (gameflow == 1){
+		document.getElementById("phase3").style.display = 'none';
+		document.getElementById("phase4").style.display = 'initial';
+	}
+	else{
+		document.getElementById("phase4").style.display = 'none';
+		document.getElementById("phase5").style.display = 'initial';
+		gameflow = 0;
+		document.querySelector('#saturn').disabled = false;
+		document.querySelector('#next').disabled = true;
+	}
+}
 function moveCounter(nemo){
 	let x = nemo;
 	let id = null;
@@ -128,17 +143,27 @@ function firstHand(){
     imageParent.appendChild(image);
   } 
 }
-function startGame(){
+function startGame(mode){
 	shuffle(egg_stack);
 	shuffle(deck_stack);
 	for (let i = 0; i < 5; i++) {
 		security_stack.push(deck_stack.pop());
 	}
 	document.getElementById('redbutt').style.visibility='hidden';
+	document.getElementById('redbutt2').style.visibility='hidden';	
+	document.getElementById("comando").style.display = 'initial';
 	deck = 40;
 	document.getElementById("deck_count").innerHTML = deck;
 	hand = 5;
 	document.getElementById("hand_count").innerHTML = hand;
+	document.getElementById("sec_count").innerHTML = security;
+	document.getElementById("phase3").style.display = 'initial';
+	document.querySelector('#saturn').disabled = true;
+	if (mode == 2) {
+		document.querySelector('#saturn').disabled = false;
+		document.querySelector('#next').disabled = true;
+		document.getElementById("phase3").style.display = 'none';
+	}
 	firstHand();
 	$(".security").css("display", "initial");
 	audio4.play();
@@ -274,6 +299,7 @@ function secCheck(){
   let secard = security_stack.pop();
   document.getElementById("sec"+security).style.display = 'none';
   security--;
+	document.getElementById("sec_count").innerHTML = security;
   audio1.play();
 	var layer = new Konva.Layer();
   stage.add(layer);
@@ -349,6 +375,7 @@ function draw() {
 		alert("Acabou o deck!");
 }
 function startTurn(){
+	//remember tu unsuspend here
   if (memgauge < 1){
     let elem = document.getElementById("marker");
     elem.style.left = '423px';
@@ -356,6 +383,10 @@ function startTurn(){
     document.getElementById("memtxt").innerHTML = memgauge;
   }
   draw();
+	document.getElementById("phase5").style.display = 'none';
+	document.getElementById("phase3").style.display = 'initial';
+	document.querySelector('#saturn').disabled = true;
+	document.querySelector('#next').disabled = false;
 }
 function payCost() {
   let qt = document.getElementById("tnt").value;

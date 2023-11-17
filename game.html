@@ -7,7 +7,7 @@
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/konva.min.js"></script>
     <script src="js/magic.js"></script> 
-    <title>Digimon CG Simulator v1.1</title>
+    <title>youkaiCGsim</title>
   </head>
   <body>
     <div id="main">
@@ -15,7 +15,8 @@
         <img id="cadet" src="">
       </div>   
       <div id="hand" class="mao">
-				<button id="redbutt" onclick="startGame()">Start Game</button>
+				<button id="redbutt" onclick="startGame(1)">Go first</button>
+				<button id="redbutt2" onclick="startGame(2)">Go second</button>
         <span>Cards in hand: </span><span id="hand_count">0</span>
         <br>
       </div>
@@ -26,25 +27,31 @@
 					<button id="delete-button">Trash</button>
 				</div>
 			</div>
-      <img id="egg_cover" src="assets/sleeves/ofc2020lvl2.png" onclick="breed()">
-      <img id="deck_cover" src="assets/sleeves/ofc2020Omnimon.webp" onclick="draw()">
+			<span id="phase3" class="gameflow">Breeding Phase</span>
+			<span id="phase4" class="gameflow">Main Phase</span>
+			<span id="phase5" class="gameflow">End of the Turn</span>
+      <img id="egg_cover" src="assets/sleeves/294b7c16a5912f7000a353142e4ac566.jpeg" onclick="breed()">
+      <img id="deck_cover" src="assets/sleeves/werfsfe.jpg" onclick="draw()">
 			<img id="trash" src="" onclick="">
-      <img class="security" id="sec1" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
-      <img class="security" id="sec2" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
-      <img class="security" id="sec3" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
-      <img class="security" id="sec4" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
-      <img class="security" id="sec5" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <img class="security" id="sec1" src="assets/sleeves/werfsfe.jpg" onclick="secCheck()">
+      <img class="security" id="sec2" src="assets/sleeves/werfsfe.jpg" onclick="secCheck()">
+      <img class="security" id="sec3" src="assets/sleeves/werfsfe.jpg" onclick="secCheck()">
+      <img class="security" id="sec4" src="assets/sleeves/werfsfe.jpg" onclick="secCheck()">
+      <img class="security" id="sec5" src="assets/sleeves/werfsfe.jpg" onclick="secCheck()">
+			<span class="conut" id="sec_count">0</span>
       <span class="conut" id="egg_count">4</span>
       <span class="conut" id="deck_count">50</span>
       <span class="conut" id="trash_count">0</span>
-      <img id="marker" src="assets/counters/blitzgreymon.png">
-      <button id="saturn" onclick="startTurn(this)">Start turn</button>
-      <button onclick="shuffle(deck_stack)">Shuffle Deck</button>
-      <button onclick="gainMemo()">Gain Memory</button> 
-      <input type="number" id="tnt" name="tnt" min="1" max="20" value="2" />
-			<button onclick="payCost()">Pay Cost</button> 
-      <button onclick="" disabled>End turn</button>
-      <span class="memo">Memory: </span><span class="memo" id="memtxt">0</span>
+      <img id="marker" src="assets/counters/smile.png">
+			<div id="comando">
+				<button id="saturn" onclick="startTurn(this)" disabled>Start turn</button>
+				<button onclick="shuffle(deck_stack)">Shuffle Deck</button>
+				<button onclick="gainMemo()">Gain Memory</button> 
+				<input type="number" id="tnt" name="tnt" min="1" max="20" value="2" />
+				<button onclick="payCost()">Pay Cost</button> 
+				<button id="next" onclick="nextPhase()">Next Phase</button>
+				<span class="memo">Memory: </span><span class="memo" id="memtxt">0</span>
+			</div>
     </div>
   </body>
 </html>
