@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: grey;
+}
+img:hover {
+  cursor: pointer;
+}
+.memo{
+  color: yellow;
+}
+.previa{
+  position: absolute;
+  margin: 5px;
+  z-index: 999;
+  height: 430px;
+}
+.previa img{
+  height: 430px;
+}
+#hand{
+  border: 2px solid lightblue;
+  padding: 4px;
+  position: absolute;
+  width: 266px;
+  height: 690px;
+  overflow-y: scroll; /* Show vertical scrollbar */
+  left: 1220px;
+}
+#hand img{
+ width: 117px;
+ height: 165px;
+}
+.conut{
+  color: yellow;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 200%;
+}
+#main{
+  margin:5px;
+  width: 1200px;
+  height: 700px;
+  background-image: url("../assets/bg/10.webp");
+  background-repeat: no-repeat;
+}
+#container{
+  border: 1px solid red; 
+}
+#egg_cover{
+  position: absolute;
+  top: 498px;
+  left: 90px;
+}
+#egg_count{
+  position: absolute;
+  top: 460px;
+  left: 87px;
+}
+#deck_cover{
+  position: absolute;
+  top: 101px;
+  left: 1040px;
+}
+.security{
+	display:none;
+}
+#trash{
+  position: absolute;
+  top: 300px;
+	height:165px;
+	width:115px;
+  left: 1040px;
+}
+#deck_count{
+  position: absolute;
+  top: 105px;
+  left: 1166px;
+}
+#trash_count{
+  position: absolute;
+  top: 305px;
+  left: 1166px;
+}
+#sec1{
+  position: absolute;
+  top: 272px;
+  left: 69px;
+  transform: rotate(-90deg);
+}
+#sec2{
+  position: absolute;
+  top: 240px;
+  left: 69px;
+  transform: rotate(-90deg);
+}
+#sec3{
+  position: absolute;
+  top: 203px;
+  left: 69px;
+  transform: rotate(-90deg);
+}
+#sec4{
+  position: absolute;
+  top: 169px;
+  left: 69px;
+  transform: rotate(-90deg);
+}
+#sec5{
+  position: absolute;
+  top: 132px;
+  left: 69px;
+  transform: rotate(-90deg);
+}
+#marker{
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 581px;
+  animation: rotate 5s linear infinite;
+}
+#menu {
+  display: none;
+  position: absolute;
+  width: 70px;
+  background-color: white;
+  box-shadow: 0 0 5px grey;
+  border-radius: 3px;
+}
+#menu button {
+  width: 100%;
+  background-color: white;
+  border: none;
+  margin: 0;
+  padding: 5px;
+}
+#menu button:hover {
+  background-color: lightgray;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

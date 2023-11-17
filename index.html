@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <title>Generic CG Simulator v1.1</title>
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script src="js/decks.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style2.css" />
+</head>
+<body>
+	<img class="previa" src="beca.jpg">
+	<div class="flute">
+		<div class="centro">
+			<h1>Generic CG Simulator v1.1</h1>
+			<img id="law" src="8b2fb19861c4652d2be1a1494eeb52b0.jpg">
+		</div>
+		<div>
+			<p class="centro">You definitely do not want to download some cute dog pictures <a href="https://we.tl/t-cbr27g6QjT">here</a> and put them in the assets folder<br>If the other link does not work, try <a href="https://file.io/o0ftRAnsE4dD">this</a></p>
+			<h2>Features</h2>
+			<ul>
+				<li>42 official decks ready to play!</li>
+				<li>No internet required: only local files</li>
+			</ul>
+			<h2>to do</h2>
+			<ul>
+				<li>Suspend cards</li>
+			</ul>
+			<form>
+				<label for="cars">Choose a deck:</label>
+				<select name="cars" id="cars">
+				<option class="iroaka" value="st1">Starter Deck Gaia Red</option>
+				<option class="iroao" value="st2">Starter Deck Cocytus Blue</option>
+				<option class="irokiiro" value="st3">Starter Deck Heaven's Yellow</option>
+				<option class="iromidori" value="st4">Starter Deck Giga Green</option>
+				<option class="irokuro" value="st5">Starter Deck Machine Black</option>
+				<option class="iromurasaki" value="st6">Starter Deck Venomous Violet</option>
+				<option class="iroaka" value="st7">Starter Deck Gallantmon</option>
+				<option class="iroao" value="st8">Starter Deck UlforceVeedramon</option>
+				<option class="iromidori" value="st9">Starter Deck Ultimate Ancient Dragon</option>
+				<option class="iromurasaki" value="st10">Starter Deck Parallel World Tactician</option>
+				<option class="iroaka" value="st12">Starter Deck Jesmon</option>
+				<option value="st13">Starter Deck RagnaLoardmon</option>
+				<option class="iromurasaki" value="st14">Advanced Deck Set Beelzemon</option>
+				<option class="irokuro" value="st15">Starter Deck Dragon of Courage</option>
+				<option class="iromurasaki" value="st16">Starter Deck Wolf of Friendship</option>
+				<option class="iroaka" value="bt11_Bird">Bird & Beast</option>
+				<option class="irokuro" value="bt11_Galacticmon">Galacticmon</option>
+				<option class="iromidori" value="bt11_Jijimon">Jijimon</option>
+				<option class="irokuro" value="bt11_KingSukamon">KingSukamon</option>
+				<option value="bt12_Arresterdramon">Arresterdramon</option>
+				<option class="iroaka" value="bt12_Gallantmon">Gallantmon</option>
+				<option class="iroao" value="bt12_Imperialdramon">Imperialdramon</option>
+				<option class="irokiiro" value="bt12_ShineGreymon">ShineGreymon</option>
+				<option class="iromurasaki" value="bt13_Belphemon">Belphemon</option>
+				<option class="iroao" value="bt13_MirageGaogomon_BurstMode">MirageGaogamon: Burst Mode</option>
+				<option class="iromurasaki" value="bt13_Ravemon_BurstMode">Ravemon: Burst Mode</option>
+				<option class="iromidori" value="bt13_Rosemon_BurstMode">Rosemon: Burst Mode</option>
+				<option value="bt13_RoyalKnight">Royal Knight</option>
+				<option class="irokiiro" value="bt13_ShineGreymon_BurstMode">ShineGreymon: Burst Mode</option>
+				<option class="irokuro" value="bt14_D-Brigade">D-Brigade</option>
+				<option class="iromidori" value="bt14_LilymonACE">Lilymon ACE</option>
+				<option class="iromurasaki" value="bt14_Loogamon">Loogamon</option>
+				<option class="irokiiro" value="bt14_MagnaAngemonACE">MagnaAngemon ACE</option>
+				<option class="iroaka" value="bt14_MetalGreymonACE">MetalGreymon ACE</option>
+				<option class="iroao" value="bt14_ZudomonACE">Zudomon ACE</option>
+				<option class="irokuro" value="ex4_OmnimonAlter-S">Omnimon Alter-S</option>
+				<option class="iroao" value="ex4_GreyKnightsmon">GreyKnightsmon</option>
+				<option class="iromurasaki" value="ex4_Ravemon">Ravemon</option>
+				<option class="iromidori" value="ex4_AllianceLopmon">Alliance Lopmon & Terriermon</option>
+				<option class="iromidori" value="rb1_Angoramon">Angoramon</option>
+				<option class="iroaka" value="rb1_Gammamon">Gammamon</option>
+				<option class="iroao" value="rb1_Jellymon">Jellymon</option>
+			</select>
+				<a href="game.html" class="myButton">let it rip</a>
+			</form>
+			<p></p>
+			<div id="sample1"></div>
+			<div id="sample2"></div>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+let egg_stack = [];
+let deck_stack = [];
+function setCookie(c_name,value,exdays){
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value;
+}
+function printEgg(value, index, array) {
+  console.log(value);
+	var imageParent = document.getElementById("sample1");
+	var image = document.createElement("img");
+  image.id = value;
+  image.src = "assets/cards/" + value + ".webp";
+  imageParent.appendChild(image);
+}
+function printDeck(value, index, array) {
+  console.log(value);
+	var imageParent = document.getElementById("sample2");
+	var image = document.createElement("img");
+  image.id = value;
+  image.src = "assets/cards/" + value + ".webp";
+  imageParent.appendChild(image);
+}
+$("#cars").change(function(){
+  let valor = $(this).val();  
+	document.getElementById("sample1").innerHTML = "";
+	document.getElementById("sample2").innerHTML = "";
+  egg_stack = decks.find(x => x.id === valor).egg_stack;
+	deck_stack = decks.find(y => y.id === valor).deck_stack;
+	console.log("egg_stack");
+	egg_stack.forEach(printEgg);
+	console.log("deck_stack");
+	deck_stack.forEach(printDeck);
+	setCookie("tamago",egg_stack,7);
+	setCookie("deku",deck_stack,7);
+	$("#sample1").children('img').hover(function(){
+		$(".previa").attr('src',$(this).attr('src'));
+	});
+	$("#sample2").children('img').hover(function(){
+		$(".previa").attr('src',$(this).attr('src'));
+	});
+});
+</script>

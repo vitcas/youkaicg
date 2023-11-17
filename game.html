@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <meta charset="utf-8" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/konva.min.js"></script>
+    <script src="js/magic.js"></script> 
+    <title>Digimon CG Simulator v1.1</title>
+  </head>
+  <body>
+    <div id="main">
+      <div class="previa">
+        <img id="cadet" src="">
+      </div>   
+      <div id="hand" class="mao">
+				<button id="redbutt" onclick="startGame()">Start Game</button>
+        <span>Cards in hand: </span><span id="hand_count">0</span>
+        <br>
+      </div>
+      <div id="container"></div>
+			<div id="menu">
+				<div>
+					<button id="susp-button">Suspend</button>
+					<button id="delete-button">Trash</button>
+				</div>
+			</div>
+      <img id="egg_cover" src="assets/sleeves/ofc2020lvl2.png" onclick="breed()">
+      <img id="deck_cover" src="assets/sleeves/ofc2020Omnimon.webp" onclick="draw()">
+			<img id="trash" src="" onclick="">
+      <img class="security" id="sec1" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <img class="security" id="sec2" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <img class="security" id="sec3" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <img class="security" id="sec4" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <img class="security" id="sec5" src="assets/sleeves/ofc2020Omnimon.webp" onclick="secCheck()">
+      <span class="conut" id="egg_count">4</span>
+      <span class="conut" id="deck_count">50</span>
+      <span class="conut" id="trash_count">0</span>
+      <img id="marker" src="assets/counters/blitzgreymon.png">
+      <button id="saturn" onclick="startTurn(this)">Start turn</button>
+      <button onclick="shuffle(deck_stack)">Shuffle Deck</button>
+      <button onclick="gainMemo()">Gain Memory</button> 
+      <input type="number" id="tnt" name="tnt" min="1" max="20" value="2" />
+			<button onclick="payCost()">Pay Cost</button> 
+			<button onclick="">Clear Table</button> 
+      <button onclick="" disabled>End turn</button>
+      <span class="memo">Memory: </span><span class="memo" id="memtxt">0</span>
+    </div>
+  </body>
+</html>
+<script>
+  $(".previa").hide();
+	let currentShape;
+  var width = 1200;
+  var height = 700;
+  var stage = new Konva.Stage({
+    container: 'container',
+    width: width,
+    height: height,
+  });
+  var rectX = stage.width() / 2 - 50;
+  var rectY = stage.height() / 2 - 25;
+  newPlay();
+  $("#hand").children('img').hover(function(){
+    $("#cadet").attr('src',$(this).attr('src')); 
+    $(".previa").show();
+  }, function(){
+    $(".previa").hide();
+  });
+	var menuNode = document.getElementById('menu');  
+  window.addEventListener('click', () => {
+    menuNode.style.display = 'none';
+  });
+</script>
