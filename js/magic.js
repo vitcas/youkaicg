@@ -5,13 +5,90 @@ var hand = 0;
 var digitama = 4;
 var trash = 0;
 var memgauge = 0;
+var lucky = 0;
 const hand_stack = [];
 const security_stack = [];
+const trash_stack = [];
+const egg_stack = getCookie("tamago").split(",");;
+const deck_stack = getCookie("deku").split(",");;
 var audio1 = new Audio('assets/sounds/SS_00000.wav');
 var audio2 = new Audio('assets/sounds/SS_00001.wav');
 var audio3 = new Audio('assets/sounds/mixkit-creature-cry-of-hurt-2208.wav');
 var audio4 = new Audio('assets/sounds/mixkit-extra-bonus-in-a-video-game-2045.wav');
 
+function plusHand(){
+	hand++;
+	document.getElementById("hand_count").innerHTML = hand;
+}
+function send2Hand(object){
+	//alert(object.id);
+	deck_stack.splice(deck,1);
+	//deck = deck_stack.lenght;
+	$('#inside').find("#"+object.id).css("display", "none");
+	document.getElementById(object.id).style.display = 'none';
+	hand_stack.push(object.id);
+	plusHand();
+	const myElement = document.getElementById("hand");
+	let card = document.createElement("img");
+	card.id = object.id;
+	card.src = "assets/cards/" + object.id + ".webp";
+	card.onclick= function() {handPlay(card.id)}
+	myElement.append(card);
+	audio1.play();
+	$("#hand").children('img').hover(function(){
+		$("#cadet").attr('src',$(this).attr('src')); 
+		$(".previa").show();
+	}, function(){
+		$(".previa").hide();
+	});
+}
+function showSec(){
+	document.getElementById("showcase").style.display = 'initial';
+	let fondya = document.getElementById("inside");
+	var tam = security_stack.length;
+	for (let i = 0; i < tam; i++) {
+		var image = document.createElement("img");
+		image.src = "assets/cards/" + security_stack[i] + ".webp";
+		fondya.appendChild(image);
+	}
+	fondya.style.display = 'initial';
+}
+function showTrash(){
+	document.getElementById("showcase").style.display = 'initial';
+	let fondya = document.getElementById("inside");
+	var tam = trash_stack.length;
+	for (let i = 0; i < tam; i++) {
+		var image = document.createElement("img");
+		image.src = "assets/cards/" + trash_stack[i] + ".webp";
+		fondya.appendChild(image);
+	}
+	fondya.style.display = 'initial';
+}
+function showDeck(){
+	lucky++;
+	deck--;
+	document.getElementById("showcase").style.display = 'initial';
+	document.getElementById("deck_count").innerHTML = deck;
+	let fondya = document.getElementById("inside");
+	var tam = deck_stack.length;
+	var curcard = deck_stack[tam-lucky];
+	var image = document.createElement("img");
+	image.src = "assets/cards/" + curcard + ".webp";
+	image.id = curcard;
+	image.click(function(){ send2Hand(this); });
+	fondya.appendChild(image);
+	$("#inside").children('img').click(function(){ send2Hand(this); });
+	//alert(curcard);
+}
+function closeShow(){
+	let fondya = document.getElementById("showcase");
+	fondya.style.display = 'none';
+	document.getElementById("inside").innerHTML = "";
+	lucky = 0;
+	shuffle(deck_stack);
+	deck = deck_stack.length;
+	document.getElementById("deck_count").innerHTML = deck;
+}
 function nextPhase(){
 	gameflow++;
 	if (gameflow == 1){
@@ -168,7 +245,7 @@ function startGame(mode){
 	$(".security").css("display", "initial");
 	audio4.play();
 }
-function newPlay(){
+function setCenter(){
   var layer = new Konva.Layer();
   var box = new Konva.Rect({
     x: rectX,
@@ -209,30 +286,6 @@ function handPlay(el){
       layer.add(yoda);
     };
     imageObj.src = element.src; 
-		document.getElementById('delete-button').addEventListener('click', () => {
-			currentShape.destroy();
-			layer.draw();
-			let ima = currentShape.attrs.image.src;
-			document.getElementById("trash").src = ima;
-			trash++;
-			document.getElementById("trash_count").innerHTML = trash;
-			audio3.play();
-		});
-		stage.on('contextmenu', function (e) {
-    // prevent default behavior
-    e.evt.preventDefault();
-    if (e.target === stage) {
-			// if we are on empty place of the stage we will do nothing
-			return;
-    }
-    currentShape = e.target;
-    //console.log(currentShape);
-    // show menu
-    menuNode.style.display = 'initial';
-    var containerRect = stage.container().getBoundingClientRect();
-    menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
-    menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
-  });
     audio1.play();
   }
   else 
@@ -264,30 +317,6 @@ function breed() {
       layer.add(yoda);
     };
     imageObj.src = "assets/cards/" + egg  + ".webp";
-		document.getElementById('delete-button').addEventListener('click', () => {
-			currentShape.destroy();
-			layer.draw();
-			let ima = currentShape.attrs.image.src;
-			document.getElementById("trash").src = ima;
-			trash = trash + 1;
-			document.getElementById("trash_count").innerHTML = trash;
-			audio3.play();
-		});
-		stage.on('contextmenu', function (e) {
-			// prevent default behavior
-			e.evt.preventDefault();
-			if (e.target === stage) {
-				// if we are on empty place of the stage we will do nothing
-				return;
-			}
-			currentShape = e.target;
-			//console.log(currentShape);
-			// show menu
-			menuNode.style.display = 'initial';
-			var containerRect = stage.container().getBoundingClientRect();
-			menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
-			menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
-		});
 		if (digitama == 0)
 			document.getElementById("egg_cover").style.display = 'none';
     audio1.play();
@@ -322,28 +351,6 @@ function secCheck(){
 		});
   };
   imageObj.src = "assets/cards/" + secard + ".webp";
-	document.getElementById('delete-button').addEventListener('click', () => {
-    currentShape.destroy();
-    layer.draw();
-		let ima = currentShape.attrs.image.src;
-		document.getElementById("trash").src = ima;
-		audio3.play();
-  });
-	stage.on('contextmenu', function (e) {
-    // prevent default behavior
-    e.evt.preventDefault();
-    if (e.target === stage) {
-			// if we are on empty place of the stage we will do nothing
-			return;
-    }
-    currentShape = e.target;
-    //console.log(currentShape);
-    // show menu
-    menuNode.style.display = 'initial';
-    var containerRect = stage.container().getBoundingClientRect();
-    menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
-    menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
-  });
 }
 function draw() {
 	if (deck > 0){
@@ -351,10 +358,7 @@ function draw() {
 		hand_stack.push(aux);
 		deck = deck - 1;
 		document.getElementById("deck_count").innerHTML = deck;
-		hand = hand + 1;
-		document.getElementById("hand_count").innerHTML = hand;
-		if (digitama == 0)
-			document.getElementById("egg_cover").style.display = 'none';
+		plusHand();
 		const myElement = document.getElementById("hand");
 		let card = document.createElement("img");
 		card.id = aux;
@@ -411,6 +415,3 @@ function gainMemo() {
     alert('Memory overflow!');
 	
 }
-
-const egg_stack = getCookie("tamago").split(",");;
-const deck_stack = getCookie("deku").split(",");;
