@@ -1,159 +1,124 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   background-color: grey;
 }
-img:hover {
-  cursor: pointer;
-}
+img:hover {cursor: pointer;}
 #comando{
 	display:none;
+	position:absolute;
+	top:510px;
 }
-.memo{
-  color: yellow;
-}
-.gameflow{
+#menucard2{
 	position: absolute;
-	font-family:Impact;
-	font-size:36px;
-	top:650px;
-	left:950px;
+	left: 740px;
+	top:630px;
 }
-#phase3{
-	color:#e627c3;
-	display:none;
-}
-#phase4{
-	color:#ed510e;
-	display:none;
-}
-#phase5{
-	color:#8126c7;
-	display:none;
-}
-.previa{
-  position: absolute;
-  margin: 5px;
-  z-index: 999;
-  height: 430px;
-}
-.previa img{
-  height: 430px;
+#output{
+	position: absolute;
+	left:280px;
+	top:515px;
+	padding: 5px;
+	width:571px;
+	height:100px;
+	background-color:black;
+	font-size:12px;
+	text-shadow: 2px 2px 4px #000000;
+	color:#00ff2f;	
 }
 #hand{
-  border: 2px solid lightblue;
+  border-style: groove;
+	background-color:#4f4f4f;
+	color:white;
   padding: 4px;
   position: absolute;
-  width: 266px;
-  height: 690px;
+  width: 290px;
+  height: 283px;
   overflow-y: scroll; /* Show vertical scrollbar */
-  left: 1220px;
+  left: 865px;
+	top:355px;
 }
-#hand img{
- width: 117px;
- height: 165px;
-}
-.conut{
-  color: yellow;
-  text-shadow: 2px 2px 4px #000000;
-  font-size: 200%;
-}
+#hand img{margin:1px;}
 #main{
-  margin:5px;
-  width: 1200px;
-  height: 700px;
-  background-image: url("../assets/bg/sfsff.jpg");
-  background-repeat: no-repeat;
+  margin:2px;
+  width: 860px;
+  height: 505px;
+  background-image: url("../img/dale.png");
+	background-size: contain;
 }
-#container{
-  border: 1px solid red; 
-}
+#container{border-style: groove;}
 #egg_cover{
+  display: none;
   position: absolute;
-  top: 498px;
-  left: 90px;
+  top: 355px;
+  left: 64px;
 }
 #egg_count{
   position: absolute;
-  top: 460px;
-  left: 87px;
+  top: 323px;
+  left: 63px;
 }
 #deck_cover{
+  display: none;
   position: absolute;
-  top: 101px;
-  left: 1040px;
-}
-#wonka{
-  position: absolute;
-  top: 74px;
-  left: 1070px;
-}
-.security{
-	display:none;
-}
-#trash{
-  position: absolute;
-  top: 300px;
-	height:165px;
-	width:115px;
-  left: 1040px;
+  top: 71px;
+  left: 744px;
 }
 #deck_count{
   position: absolute;
-  top: 105px;
-  left: 1166px;
+  top: 67px;
+  left: 833px;
 }
-#trash_count{
+#btndeck{
   position: absolute;
-  top: 305px;
-  left: 1166px;
+  top: 44px;
+  left: 700px;
+}
+#sec_area{
+	position: absolute;
+	text-align:center;
+	padding:0px;
+	left: 15px;
+	top: 190px;
+	max-width:150px;
+	height:100px;
+	overflow: hidden;
+}
+.security{
+	display:none;
+	margin:0px;
+	transform: rotate(-90deg);
 }
 #sec_count{
   position: absolute;
-  top: 160px;
-  left: 15px;
+  top: 120px;
+  left: 10px;
 }
-#willy{
+#btnsec1{
   position: absolute;
-  top: 130px;
-  left: 90px;
+  top: 100px;
+  left: 0px;
 }
-#sec1{
+#btnsec2{
   position: absolute;
-  top: 272px;
-  left: 69px;
-  transform: rotate(-90deg);
+  top: 100px;
+  left: 60px;
 }
-#sec2{
+#trash{
   position: absolute;
-  top: 240px;
-  left: 69px;
-  transform: rotate(-90deg);
+  top: 214px;
+  left: 745px;
 }
-#sec3{
+#trash_count{
   position: absolute;
-  top: 203px;
-  left: 69px;
-  transform: rotate(-90deg);
-}
-#sec4{
-  position: absolute;
-  top: 169px;
-  left: 69px;
-  transform: rotate(-90deg);
-}
-#sec5{
-  position: absolute;
-  top: 132px;
-  left: 69px;
-  transform: rotate(-90deg);
+  top: 217px;
+  left: 837px;
 }
 #marker{
-  width: 50px;
+  width: 35px;
   position: absolute;
-  top: 20px;
-  left: 581px;
+  top: 13px;
+  left: 414px;
   animation: rotate 5s linear infinite;
 }
 #showcase{
@@ -179,10 +144,32 @@ img:hover {
 	width:25px !important;
 	height:25px !important;
 }
+.digicard{height:117px;}
+.efekt{margin:2px;}
+.memo{color: yellow;}
+.tutu{color: blue;}
+.gameflow{
+	color:rgba(255, 255, 255, 0.2);
+	position: absolute;
+	font-family:Impact;
+	font-size:36px;
+	top:460px;
+	left:620px;
+}
+.previa{
+  position: absolute;
+	left:865px;
+}
+.previa img{height: 350px;}
+.conut{
+  color: yellow;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 140%;
+}
 .manu {
   display: none;
   position: absolute;
-  width: 70px;
+  width: 80px;
   background-color: white;
   box-shadow: 0 0 5px grey;
   border-radius: 3px;
@@ -205,3 +192,11 @@ img:hover {
     transform: rotate(-360deg);
   }
 }
+/* unvisited link */
+a:link {color: red;}
+/* visited link */
+a:visited { color: black;}
+/* mouse over link */
+a:hover {color: hotpink;}
+/* selected link */
+a:active {color: blue;}

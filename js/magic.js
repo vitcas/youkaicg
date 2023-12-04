@@ -1,357 +1,206 @@
-var gameflow = 0;
-var deck = 50;
-var security = 5;
-var hand = 0;
-var digitama = 4;
-var trash = 0;
-var memgauge = 0;
-var lucky = 0;
+var gameflow = 0; var turn_count = 0; var memgauge = 0;
+var deck = 50; var digitama = 4;
+var security = 0; var hand = 0; var trash = 0;
+let lucky = 0; var breeding = 0;
+let selected_card = ""; let selected_type = ""; 
+let selected_level = 0;
+let myStacks = 0;
+const digiMax = [["ex1","ex2","ex4"],["rb1","rb2"],["bt14"]];
+const digiMox = [];
+
+const sauce = "assets/cards/default/";
+const shield2 = "assets/sleeves/jeane.jpg";
+//decks initialization
 const hand_stack = [];
 const security_stack = [];
 const trash_stack = [];
-const egg_stack = getCookie("tamago").split(",");;
-const deck_stack = getCookie("deku").split(",");;
-var audio1 = new Audio('assets/sounds/SS_00000.wav');
-var audio2 = new Audio('assets/sounds/SS_00001.wav');
-var audio3 = new Audio('assets/sounds/mixkit-creature-cry-of-hurt-2208.wav');
-var audio4 = new Audio('assets/sounds/mixkit-extra-bonus-in-a-video-game-2045.wav');
-
+const egg_stack = sessionStorage.getItem('tamago').split(",");
+const deck_stack = sessionStorage.getItem('deku').split(",");
+const shortEgg = theChosen(egg_stack);
+const shortDeck = theChosen(deck_stack);
+const shorted = shortEgg.concat(shortDeck);
+const mongodata = [];
+function getDocument(code) {
+  fetch(`http://127.0.0.1:5000/api/youkaicg/${code}`)
+  .then(response => response.json())
+  .then(data => {			
+    //var cleanedData = JSON.stringify(data, null, 2);
+		mongodata.push(data);
+  }).catch(error => {
+    console.error('Erro:', error);
+		console.log('Erro na chamada da API');
+  });
+}
+for (const elemento of shorted)
+  getDocument(elemento);
+//basic functions
+function maxTop(matrix, num){
+	return matrix[num][matrix[num].length - 1];
+}
+function prefix(card){
+	let partes = card.split("-");
+	let aux = partes[0];
+	return aux + "/";
+}
+function writeMessage(message) {
+  text.text(message);
+}
+function changePrev(){  
+  $("#cadet").attr('src',$(this).attr('src')); 
+}
+function payCost(howmuch) {
+	let aux = memgauge - howmuch;
+  if (aux >= (-10)){
+		memgauge = aux;
+		document.getElementById("memtxt").innerHTML = memgauge;
+    moveCounter(memgauge);
+  }
+  else
+    alert('Memory overflow!');
+}
+function gainMemo(howmuch) {
+	let aux = memgauge + Number(howmuch);
+  if (aux <= 10){
+		memgauge = aux;
+		document.getElementById("memtxt").innerHTML = memgauge;
+    moveCounter(memgauge);
+  }
+  else
+    alert('Memory overflow!');
+}
 function plusHand(){
 	hand++;
 	document.getElementById("hand_count").innerHTML = hand;
 }
-function send2Hand(object){
-	//alert(object.id);
-	deck_stack.splice(deck,1);
-	//deck = deck_stack.lenght;
-	$('#inside').find("#"+object.id).css("display", "none");
-	document.getElementById(object.id).style.display = 'none';
-	hand_stack.push(object.id);
-	plusHand();
-	const myElement = document.getElementById("hand");
-	let card = document.createElement("img");
-	card.id = object.id;
-	card.src = "assets/cards/" + object.id + ".webp";
-	card.onclick= function() {handPlay(card.id)}
-	myElement.append(card);
-	audio1.play();
-	$("#hand").children('img').hover(function(){
-		$("#cadet").attr('src',$(this).attr('src')); 
-		$(".previa").show();
-	}, function(){
-		$(".previa").hide();
-	});
+function canDigivolve(){
+	if (digiMox.length < 1 || memgauge < 0)	return false;
+	return true;
 }
-function showSec(){
-	document.getElementById("showcase").style.display = 'initial';
-	let fondya = document.getElementById("inside");
-	var tam = security_stack.length;
-	for (let i = 0; i < tam; i++) {
-		var image = document.createElement("img");
-		image.src = "assets/cards/" + security_stack[i] + ".webp";
-		fondya.appendChild(image);
-	}
-	fondya.style.display = 'initial';
+function isDigimon(card){
+	if (card == "Digimon") return true;
+	return false;
 }
-function showTrash(){
-	document.getElementById("showcase").style.display = 'initial';
-	let fondya = document.getElementById("inside");
-	var tam = trash_stack.length;
-	for (let i = 0; i < tam; i++) {
-		var image = document.createElement("img");
-		image.src = "assets/cards/" + trash_stack[i] + ".webp";
-		fondya.appendChild(image);
-	}
-	fondya.style.display = 'initial';
-}
-function showDeck(){
-	lucky++;
-	deck--;
-	document.getElementById("showcase").style.display = 'initial';
-	document.getElementById("deck_count").innerHTML = deck;
-	let fondya = document.getElementById("inside");
-	var tam = deck_stack.length;
-	var curcard = deck_stack[tam-lucky];
-	var image = document.createElement("img");
-	image.src = "assets/cards/" + curcard + ".webp";
-	image.id = curcard;
-	image.click(function(){ send2Hand(this); });
-	fondya.appendChild(image);
-	$("#inside").children('img').click(function(){ send2Hand(this); });
-	//alert(curcard);
-}
-function closeShow(){
-	let fondya = document.getElementById("showcase");
-	fondya.style.display = 'none';
-	document.getElementById("inside").innerHTML = "";
-	lucky = 0;
-	shuffle(deck_stack);
-	deck = deck_stack.length;
-	document.getElementById("deck_count").innerHTML = deck;
-}
-function nextPhase(){
-	gameflow++;
-	if (gameflow == 1){
-		document.getElementById("phase3").style.display = 'none';
-		document.getElementById("phase4").style.display = 'initial';
-	}
-	else{
-		document.getElementById("phase4").style.display = 'none';
-		document.getElementById("phase5").style.display = 'initial';
-		gameflow = 0;
-		document.querySelector('#saturn').disabled = false;
-		document.querySelector('#next').disabled = true;
-	}
-}
-function moveCounter(nemo){
-	let x = nemo;
-	let id = null;
-  let elem = document.getElementById("marker");
-  //let pos = getOffset(elem).left;
-  //let target = pos + ( 56 * qt);
-  audio2.play();
-	switch(x) {
-  case 1:
-    elem.style.left = '525px';
-    break;
-  case -1:
-    elem.style.left = '635px';
-    break;
-	case 2:
-    elem.style.left = '475px';
-    break;
-  case -2:
-    elem.style.left = '687px';
-    break;
-	case 3:
-    elem.style.left = '422px';
-    break;
-  case -3:
-    elem.style.left = '740px';
-    break;
-	case 4:
-    elem.style.left = '370px';
-    break;
-  case -4:
-    elem.style.left = '792px';
-    break;
-	case 5:
-    elem.style.left = '320px';
-    break;
-  case -5:
-    elem.style.left = '845px';
-    break;
-	case 6:
-    elem.style.left = '265px';
-    break;
-  case -6:
-    elem.style.left = '897px';
-    break;
-	case 7:
-    elem.style.left = '215px';
-    break;
-  case -7:
-    elem.style.left = '950px';
-    break;
-	case 8:
-    elem.style.left = '160px';
-    break;
-  case -8:
-    elem.style.left = '1005px';
-    break;
-	case 9:
-    elem.style.left = '105px';
-    break;
-  case -9:
-    elem.style.left = '1057px';
-    break;
-	case 10:
-    elem.style.left = '50px';
-    break;
-  case -10:
-    elem.style.left = '1111px';
-    break;
-  default:
-    elem.style.left = '581px';
+function hasLevel(lvl){
+	for (let i = 0; i < digiMox.length; i++) {
+		var aux = maxTop(digiMox,i);
+		var temp = getCard(aux);
+		if (temp.level == lvl) return true;
+		console.log(temp);
 	} 
+	return false;
 }
-function getCookie(c_name){
-var i,x,y,ARRcookies=document.cookie.split(";");
-for (i=0;i<ARRcookies.length;i++)
-{
-  x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-  y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-  x=x.replace(/^\s+|\s+$/g,"");
-  if (x==c_name)
-    {
-    return unescape(y);
-    }
-  }
-}
-function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
-  // While there remain elements to shuffle.
-  while (currentIndex > 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-  return array;
-}
-function getOffset(el) {
-  const rect = el.getBoundingClientRect();
-  return {
-    left: rect.left + window.scrollX,
-    top: rect.top + window.scrollY
-  };
+//game preparation
+function fillSec(){
+	var mother = document.getElementById("sec_area");
+	for (let i = 1; i < 6; i++) {
+		var image = document.createElement("img");
+    let aux = deck_stack.pop();
+    security_stack.push(aux);
+    image.id = "sec" + i;
+    image.src = shield2;
+		image.classList.add("digicard");
+    image.classList.add("security");
+    image.onclick = function() {secCheck()}
+    mother.appendChild(image);
+	}
 }
 function firstHand(){  
   var imageParent = document.getElementById("hand");
   for (let i = 0; i < 5; i++) {
-    var image = document.createElement("img");
+    var image = document.createElement("img");	
     let aux = deck_stack.pop();
+		let prefixo = prefix(aux);
     hand_stack.push(aux);
     image.id = aux;
-    image.src = "assets/cards/" + aux + ".webp";
-    image.onclick = function() {handPlay(aux)}
+    image.src = sauce + prefixo + aux + ".webp";
+		image.classList.add("digicard");
+    //image.onclick = function() {handPlay(aux)};
+		image.onclick = function() {selectCard(aux)};
+    image.addEventListener("mouseover", changePrev, false);
+		image.oncontextmenu = (e)=>{e.preventDefault();};
     imageParent.appendChild(image);
   } 
 }
 function startGame(mode){
 	shuffle(egg_stack);
 	shuffle(deck_stack);
-	for (let i = 0; i < 5; i++) {
-		security_stack.push(deck_stack.pop());
-	}
-	document.getElementById('redbutt').style.visibility='hidden';
-	document.getElementById('redbutt2').style.visibility='hidden';	
-	document.getElementById("comando").style.display = 'initial';
-	deck = 40;
+	fillSec();
+	firstHand();
+	deck = 40;hand = 5;security = 5;
+	turn_count++;
+	document.getElementById("turntxt").innerHTML = turn_count;
 	document.getElementById("deck_count").innerHTML = deck;
-	hand = 5;
 	document.getElementById("hand_count").innerHTML = hand;
 	document.getElementById("sec_count").innerHTML = security;
-	document.getElementById("phase3").style.display = 'initial';
-	document.querySelector('#saturn').disabled = true;
-	if (mode == 2) {
-		document.querySelector('#saturn').disabled = false;
-		document.querySelector('#next').disabled = true;
-		document.getElementById("phase3").style.display = 'none';
-	}
-	firstHand();
+	document.getElementById("egg_cover").style.display = 'initial';
+	document.getElementById("deck_cover").style.display = 'initial';
+	document.getElementById("comando").style.display = 'initial';	
 	$(".security").css("display", "initial");
-	audio4.play();
+	//audio4.play();
 }
-function setCenter(){
-  var layer = new Konva.Layer();
-  var box = new Konva.Rect({
-    x: rectX,
-    y: rectY,
-    width: 115,
-    height: 165,
-    fill: '#a83258',
-    stroke: 'black',
-    strokeWidth: 4,
-  });
-  layer.add(box);
-  stage.add(layer);
-}
-function handPlay(el){
-  if (hand > 0){
-    hand = hand - 1;
-    document.getElementById("hand_count").innerHTML = hand;
-    var element = document.getElementById(el);
-    element.remove();
-    var layer = new Konva.Layer();
-    stage.add(layer);
-    var imageObj = new Image();
-    imageObj.onload = function () {
-      var yoda = new Konva.Image({
-        x: rectX,
-        y: rectY,
-        image: imageObj,
-        width: 115,
-        height: 165,
-        draggable: true,
-      });
-      yoda.on('mouseover', function () {
-        document.body.style.cursor = 'pointer';
-      });
-      yoda.on('mouseout', function () {
-        document.body.style.cursor = 'default';
-      });
-      layer.add(yoda);
-    };
-    imageObj.src = element.src; 
-    audio1.play();
-  }
-  else 
-    alert("Mão vazia!");
-}
-function breed() {
-	if (digitama > 0){
-    let egg = egg_stack.pop();
-		digitama = digitama - 1;
-		document.getElementById("egg_count").innerHTML = digitama;
-    var layer = new Konva.Layer();
-    stage.add(layer);
-    var imageObj = new Image();
-    imageObj.onload = function () {
-      var yoda = new Konva.Image({
-        x: 230,
-        y: 490,
-        image: imageObj,
-        width: 115,
-        height: 165,
-        draggable: true,
-      });
-      yoda.on('mouseover', function () {
-        document.body.style.cursor = 'pointer';
-      });
-      yoda.on('mouseout', function () {
-        document.body.style.cursor = 'default';
-      });
-      layer.add(yoda);
-    };
-    imageObj.src = "assets/cards/" + egg  + ".webp";
-		if (digitama == 0)
-			document.getElementById("egg_cover").style.display = 'none';
-    audio1.play();
-	}
-	else
-		alert("Acabou o ovo!");
-}
+//security functions
 function secCheck(){
   let secard = security_stack.pop();
+	let fonte = sauce + prefix(secard) + secard + ".webp";
   document.getElementById("sec"+security).style.display = 'none';
   security--;
 	document.getElementById("sec_count").innerHTML = security;
   audio1.play();
-	var layer = new Konva.Layer();
-  stage.add(layer);
   var imageObj = new Image();
   imageObj.onload = function () {
     var yoda = new Konva.Image({
       x: rectX,
       y: rectY,
       image: imageObj,
-      width: 115,
-      height: 165,
+      width: 83,
+      height: 117,
+      name: 'card',
       draggable: true,
     });
     layer.add(yoda);
 		yoda.on('mouseover', function () {
-    document.body.style.cursor = 'pointer';
+			document.body.style.cursor = 'pointer';
+			$("#cadet").attr('src',fonte);
 		});
 		yoda.on('mouseout', function () {
 			document.body.style.cursor = 'default';
 		});
   };
-  imageObj.src = "assets/cards/" + secard + ".webp";
+  imageObj.src = fonte;
 }
+function recovery(){
+	deck--;
+	document.getElementById("deck_count").innerHTML = deck;
+	let aux = deck_stack.pop();
+	security_stack.push(aux);
+	security++;
+	document.getElementById("sec_count").innerHTML = security;
+	var mother = document.getElementById("sec_area");
+	var image = document.createElement("img");
+  image.id = "sec" + security;
+  image.src = shield2;
+	image.classList.add("digicard");
+  image.classList.add("security");
+  image.onclick = function() {secCheck()}
+  mother.appendChild(image);
+}
+function showSec(){
+	if (security > 0){
+		lucky++;
+		document.getElementById("showcase").style.display = 'initial';
+		let fondya = document.getElementById("inside");
+		var tam = security_stack.length;
+		var aux = tam - lucky;
+		var curcard = security_stack[aux];
+		var image = document.createElement("img");
+		image.src = sauce + prefix(curcard) + curcard + ".webp";
+		image.id = curcard;
+		image.onclick = function(){send2Hand(this,1,aux);};
+		image.oncontextmenu = (e)=>{e.preventDefault();};
+		fondya.appendChild(image);
+	}
+}
+//deck functions
 function draw() {
 	if (deck > 0){
 		let aux = deck_stack.pop();
@@ -361,25 +210,152 @@ function draw() {
 		plusHand();
 		const myElement = document.getElementById("hand");
 		let card = document.createElement("img");
+		card.oncontextmenu = (e)=>{e.preventDefault();};
 		card.id = aux;
-		card.src = "assets/cards/" + aux + ".webp";
-		card.onclick= function() {handPlay(card.id)}
+		card.src = sauce + prefix(aux) + aux + ".webp";
+		card.classList.add("digicard");
+		card.onclick = function() {selectCard(card.id)};
 		myElement.append(card);
 		audio1.play();
-		$("#hand").children('img').hover(function(){
-			$("#cadet").attr('src',$(this).attr('src')); 
-			$(".previa").show();
-		}, function(){
-			$(".previa").hide();
-		});
+		card.addEventListener("mouseover", changePrev, false);
 		if (deck == 0)
 			document.getElementById("deck_cover").style.display = 'none';
 	}
 	else
 		alert("Acabou o deck!");
 }
+function showDeck(){
+	lucky++;
+	deck--;
+	document.getElementById("showcase").style.display = 'initial';
+	document.getElementById("deck_count").innerHTML = deck;
+	let fondya = document.getElementById("inside");
+	var tam = deck_stack.length;
+	var aux = tam - lucky;
+	var curcard = deck_stack[tam-lucky];
+	var image = document.createElement("img");
+	image.src = sauce + prefix(curcard) + curcard + ".webp";
+	image.id = curcard;
+	image.onclick = function(){send2Hand(this,3,aux);};
+	image.oncontextmenu = (e)=>{e.preventDefault();};
+	fondya.appendChild(image);
+}
+//trash functions
+function showTrash(){
+	document.getElementById("showcase").style.display = 'initial';
+	let fondya = document.getElementById("inside");
+	var tam = trash_stack.length;
+	for (let i = 0; i < tam; i++) {
+		var image = document.createElement("img");
+		var aux = trash_stack[i];
+		var temp = prefix(aux);
+		image.src = sauce + temp + aux + ".webp";
+		image.id = trash_stack[i];
+		image.onclick = function(){send2Hand(this,2,i);};
+		image.oncontextmenu = (e)=>{e.preventDefault();};
+		fondya.appendChild(image);
+	}
+	fondya.style.display = 'initial';
+}
+//egg functions
+function breed() {
+	if (gameflow > 0){
+		alert("You missed the breeding phase!");
+		return;
+	}
+	if (digitama > 0){
+    let egg = egg_stack.pop();
+		digiMox.push([egg]);
+		console.log(digiMox);
+		let fonte = sauce + prefix(egg) + egg  + ".webp";
+		digitama = digitama - 1;
+		document.getElementById("egg_count").innerHTML = digitama;
+    var imageObj = new Image();
+    imageObj.onload = function () {
+      var yoda = new Konva.Image({
+        x: 161,
+        y: 350,
+        image: imageObj,
+        width: 83,
+        height: 117,
+        name: 'card',
+        draggable: true,
+      });
+      yoda.on('mouseover', function () {
+        document.body.style.cursor = 'pointer';
+				$("#cadet").attr('src',fonte);				
+      });
+      yoda.on('mouseout', function () {
+        document.body.style.cursor = 'default';
+      });
+			layer.add(yoda);
+			let nodes = tr.nodes().concat([yoda]);
+			tr.nodes(nodes);     
+    };
+    imageObj.src = fonte;
+		if (digitama == 0)
+			document.getElementById("egg_cover").style.display = 'none';
+    audio1.play();
+    if (gameflow < 1)
+			nextPhase();
+	}
+	else alert("Acabou o ovo!");
+}
+//hand functions
+function handPlay(){
+	if (memgauge < 0){
+		document.getElementById("cardef").innerHTML = "Not enough memory.";
+		return;
+	}
+	var lixo = loadCard();
+	if (isDigimon(lixo.type)){
+		digiMox.push([lixo.cardnumber]);
+		console.log(digiMox);
+	}
+	payCost(lixo.play_cost);
+  hand--;
+  document.getElementById("hand_count").innerHTML = hand;
+  var element = document.getElementById(selected_card);
+  element.remove();
+  var imageObj = new Image();
+  imageObj.onload = function () {
+    var yoda = new Konva.Image({
+      x: rectX,
+      y: rectY,
+      image: imageObj,
+      width: 83,
+      height: 117,
+      name: 'card',
+      draggable: true,
+    });
+    yoda.on('mouseover', function () {
+      document.body.style.cursor = 'pointer';
+			$("#cadet").attr('src',element.src);
+    });
+    yoda.on('mouseout', function () {
+      document.body.style.cursor = 'default';
+    });
+    layer.add(yoda);
+		let nodes = tr.nodes().concat([yoda]);
+		tr.nodes(nodes);
+  };
+  imageObj.src = element.src; 
+  audio1.play();
+	document.getElementById("btnPlay").disabled = true;
+	if (gameflow < 1)
+		nextPhase();
+}
+function digivolve(){
+	handPlay();
+	draw();
+	document.getElementById("btnDigivolve").disabled = true;
+}
+//gameflow functions
 function startTurn(){
 	//remember tu unsuspend here
+	gameflow = 0;
+	turn_count++;
+	document.getElementById("turntxt").innerHTML = turn_count;
   if (memgauge < 1){
     let elem = document.getElementById("marker");
     elem.style.left = '423px';
@@ -387,31 +363,126 @@ function startTurn(){
     document.getElementById("memtxt").innerHTML = memgauge;
   }
   draw();
-	document.getElementById("phase5").style.display = 'none';
-	document.getElementById("phase3").style.display = 'initial';
-	document.querySelector('#saturn').disabled = true;
-	document.querySelector('#next').disabled = false;
+	document.getElementById("comando").style.display = 'initial';
+	document.getElementById("phasetext").innerHTML = 'Breeding Phase';
+	//document.querySelector('#next').disabled = false;
 }
-function payCost() {
-  let qt = document.getElementById("tnt").value;
-	let aux = memgauge - Number(qt);
-  if (aux >= (-10)){
-		memgauge = aux;
-		document.getElementById("memtxt").innerHTML = memgauge;
-    moveCounter(memgauge);
-  }
-  else
-    alert('Memory overflow!');
+function nextPhase(){
+	gameflow++;
+	if (gameflow == 1){
+		document.getElementById("phasetext").innerHTML = 'Main Phase';
+	}
+	if (gameflow == 2){
+		startTurn();
+	}
 }
-function gainMemo() {
-  let qt = document.getElementById("tnt").value;
-	let aux = memgauge + Number(qt);
-  if (aux <= 10){
-		memgauge = aux;
-		document.getElementById("memtxt").innerHTML = memgauge;
-    moveCounter(memgauge);
-  }
-  else
-    alert('Memory overflow!');
+function endTurn(){
+	document.getElementById("phase3").style.display = 'none';
+	document.getElementById("phase4").style.display = 'none';
+	document.getElementById("phase5").style.display = 'initial';
+	gameflow = 0;
+	document.getElementById("comando").style.display = 'none';
+	var receba = memgauge*(-1);
+	callBot(receba);
+}
+//card details
+function loadCard(){
+	var aux = mongodata.find(element => element.cardnumber === selected_card);
+	selected_type = aux.type;
+	selected_level = aux.level;
+	analysis1(aux.maineffect);
+	analysis2(aux.inherit);
+	return aux;
+}
+function getCard(kode){
+	var aux = mongodata.find(element => element.cardnumber === kode);
+	return aux;
+}
+function selectCard(receive){
+	selected_card = receive;
+	loadCard();
+	if (memgauge >= 0)
+		document.getElementById("btnPlay").disabled = false;
+	if (selected_type == "Digimon"){
+		var validator = canDigivolve();
+		var perg = hasLevel(selected_level-1);
+		if (validator == true)
+			document.getElementById("btnDigivolve").disabled = false;
+	}
+}
+//popup window
+function send2Hand(object, from, who){
+	//alert(object.id);
+	switch(from) {
+  case 1:
+    security_stack.splice(who,1);
+		security = security_stack.length;
+		document.getElementById("sec_count").innerHTML = security;
+		document.getElementById("sec"+(security+1)).style.display = 'none';
+    break;
+  case 2:
+    trash_stack.splice(who,1);
+    break;
+  default:
+    deck_stack.splice(deck,1);
+	} 
+	//deck = deck_stack.lenght;
+	$('#inside').find("#"+object.id).css("display", "none");
+	//document.getElementById(object.id).style.display = 'none';
+	hand_stack.push(object.id);
+	plusHand();
+	let myElement = document.getElementById("hand");
+	let card = document.createElement("img");
+	card.id = object.id;
+	card.src = sauce + prefix(object.id) + object.id + ".webp";
+	card.onclick= function() {handPlay(card.id)};
+	card.addEventListener("mouseover", changePrev, false);
+	//card.addEventListener("mouseout", patata, false);
+	myElement.append(card);
+	audio1.play();
+}
+function closeShow(){
+	let fondya = document.getElementById("showcase");
+	fondya.style.display = 'none';
+	document.getElementById("inside").innerHTML = "";
+	lucky = 0;
+	shuffle(deck_stack);
+	deck = deck_stack.length;
+	document.getElementById("deck_count").innerHTML = deck;
 	
+}
+function minimize(){
+	document.getElementById("bota").style.display = 'none';
+	document.getElementById("maxim").style.display = 'initial';
+}
+function maximize(){
+	document.getElementById("bota").style.display = 'initial';
+	document.getElementById("maxim").style.display = 'none';
+}
+//other
+function token(){
+  var imageObj = new Image();
+  imageObj.onload = function () {
+    var yoda = new Konva.Image({
+      x: rectX,
+      y: rectY,
+      image: imageObj,
+      width: 115,
+      height: 165,
+      name: 'token',
+      draggable: true,
+    });
+		yoda.on('mouseover', function () {
+        document.body.style.cursor = 'pointer';
+				$("#cadet").attr('src',"assets/cards/token/BT2-Diaboromon_Token.webp");
+      });
+      yoda.on('mouseout', function () {
+        document.body.style.cursor = 'default';
+      });
+    layer.add(yoda);
+		//let nodes = tr.nodes().concat([yoda]);
+		//tr.nodes(nodes);
+  };
+  imageObj.src = "assets/cards/token/BT2-Diaboromon_Token.webp";
+  audio1.play();
 }

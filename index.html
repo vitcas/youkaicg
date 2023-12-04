@@ -2,118 +2,155 @@
 <html>
 <head>
 	<meta charset="utf-8" />
+	<meta lang="pt-br" />
   <link href="favicon.ico" rel="icon" type="image/x-icon">
   <title>youkaiCG</title>
 	<script src="js/jquery-3.6.0.min.js"></script>
 	<script src="js/decks.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/style2.css" />
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
 <body>
-	<img class="previa" src="img/beca.jpg">
-	<div class="flute">
-		<div class="centro">
-			<h1>Youkai CG Simulator v1.2</h1>
-			<img id="law" src="img/8b2fb19861c4652d2be1a1494eeb52b0.jpg">
+	<div class="widow">
+		<div class="fixer">
+		<div class="flute">
+			<h1 style="font-family: impact;">Youkai CG Simu v3.0</h1>
+			<label for="dekusu">Choose deck:</label>
+			<select name="dekusu" id="dekusu">
+					<option value="">none</option>
+					<option class="iroaka" value="st1">ST1 Gaia Red</option>
+					<option class="iroao" value="st2">ST2 Cocytus Blue</option>
+					<option class="irokiiro" value="st3">ST3 Heaven's Yellow</option>
+					<option class="iromidori" value="st4">ST4 Giga Green</option>
+					<option class="irokuro" value="st5">ST5 Machine Black</option>
+					<option class="iromurasaki" value="st6">ST6 Venomous Violet</option>
+					<option class="iroaka" value="st7">ST7 Gallantmon</option>
+					<option class="iroao" value="st8">ST8 UlforceVeedramon</option>
+					<option class="iromidori" value="st9">ST9 Ultimate Ancient Dragon</option>
+					<option class="iromurasaki" value="st10">ST10 Parallel World Tactician</option>
+					<option class="iroaka" value="st12">ST12 Jesmon</option>
+					<option value="st13">ST13 RagnaLoardmon</option>
+					<option class="iromurasaki" value="st14">ST14 Advanced Deck Set Beelzemon</option>
+					<option class="irokuro" value="st15">ST15 Dragon of Courage</option>
+					<option class="iromurasaki" value="st16">ST16 Wolf of Friendship</option>
+					<option class="iroaka" value="bt11_Bird">BT11 Bird & Beast</option>
+					<option class="irokuro" value="bt11_Galacticmon">BT11 Galacticmon</option>
+					<option class="iromidori" value="bt11_Jijimon">BT11 Jijimon</option>
+					<option class="irokuro" value="bt11_KingSukamon">BT11 KingSukamon</option>
+					<option value="bt12_Arresterdramon">BT12 Arresterdramon</option>
+					<option class="iroaka" value="bt12_Gallantmon">BT12 Gallantmon</option>
+					<option class="iroao" value="bt12_Imperialdramon">BT12 Imperialdramon</option>
+					<option class="irokiiro" value="bt12_ShineGreymon">BT12 ShineGreymon</option>
+					<option class="iromurasaki" value="bt13_Belphemon">BT13 Belphemon</option>
+					<option value="bt13_RoyalKnight">BT13 Royal Knight</option>
+					<option class="iroao" value="bt13_MirageGaogomon_BurstMode">BT13 MirageGaogamon: Burst Mode</option>
+					<option class="irokiiro" value="bt13_ShineGreymon_BurstMode">BT13 ShineGreymon: Burst Mode</option>
+					<option class="iromurasaki" value="bt13_Ravemon_BurstMode">BT13 Ravemon: Burst Mode</option>
+					<option class="iromidori" value="bt13_Rosemon_BurstMode">BT13 Rosemon: Burst Mode</option>
+					<option class="irokuro" value="bt14_D-Brigade">BT14 D-Brigade</option>
+					<option class="iromidori" value="bt14_LilymonACE">BT14 Lilymon ACE</option>
+					<option class="iromurasaki" value="bt14_Loogamon">BT14 Loogamon</option>
+					<option class="irokiiro" value="bt14_MagnaAngemonACE">BT14 MagnaAngemon ACE</option>
+					<option class="iroaka" value="bt14_MetalGreymonACE">BT14 MetalGreymon ACE</option>
+					<option class="iroao" value="bt14_ZudomonACE">BT14 Zudomon ACE</option>
+					<option class="irokuro" value="ex4_OmnimonAlter-S">EX4 Omnimon Alter-S</option>
+					<option class="iroao" value="ex4_GreyKnightsmon">EX4 GreyKnightsmon</option>
+					<option class="iromurasaki" value="ex4_Ravemon">EX4 Ravemon</option>
+					<option class="iromidori" value="ex4_AllianceLopmon">EX4 Alliance Lopmon & Terriermon</option>
+					<option class="iromidori" value="rb1_Angoramon">RB1 Angoramon</option>
+					<option class="iroaka" value="rb1_Gammamon">RB1 Gammamon</option>
+					<option class="iroao" value="rb1_Jellymon">RB1 Jellymon</option>
+				</select>
+			<hr>
+			<label for="miku">Upload:</label>
+			<input id="file" name="miku" class="file-upload-button" type="file" />
+			<p>Select a file with the following format:</p>
+			<pre>{
+  "sauce": "whoever made this shit",
+  "egg_stack": ["ST1-01","ST1-01","ST1-01"...],
+  "deck_stack": ["ST1-02","ST1-02","ST1-02"...]
+}</pre>
+			<img class="previa" src="img/dmc.png">
 		</div>
-		<div>
-			<p class="centro">You definitely do not want to download some cute dog pictures <a href="https://file.io/7JcnqpiUQCCK">here</a> and put them in the assets folder.<br>If the other link does not work, try <a href="#">this</a>. Someone asked for a <a href="https://files.catbox.moe/hckhtl.torrent">torrent</a>?</p>
-			<form>
-				<label for="cars">Choose a deck:</label>
-				<select name="cars" id="cars">
-				<option class="iroaka" value="st1">Starter Deck Gaia Red</option>
-				<option class="iroao" value="st2">Starter Deck Cocytus Blue</option>
-				<option class="irokiiro" value="st3">Starter Deck Heaven's Yellow</option>
-				<option class="iromidori" value="st4">Starter Deck Giga Green</option>
-				<option class="irokuro" value="st5">Starter Deck Machine Black</option>
-				<option class="iromurasaki" value="st6">Starter Deck Venomous Violet</option>
-				<option class="iroaka" value="st7">Starter Deck Gallantmon</option>
-				<option class="iroao" value="st8">Starter Deck UlforceVeedramon</option>
-				<option class="iromidori" value="st9">Starter Deck Ultimate Ancient Dragon</option>
-				<option class="iromurasaki" value="st10">Starter Deck Parallel World Tactician</option>
-				<option class="iroaka" value="st12">Starter Deck Jesmon</option>
-				<option value="st13">Starter Deck RagnaLoardmon</option>
-				<option class="iromurasaki" value="st14">Advanced Deck Set Beelzemon</option>
-				<option class="irokuro" value="st15">Starter Deck Dragon of Courage</option>
-				<option class="iromurasaki" value="st16">Starter Deck Wolf of Friendship</option>
-				<option class="iroaka" value="bt11_Bird">Bird & Beast</option>
-				<option class="irokuro" value="bt11_Galacticmon">Galacticmon</option>
-				<option class="iromidori" value="bt11_Jijimon">Jijimon</option>
-				<option class="irokuro" value="bt11_KingSukamon">KingSukamon</option>
-				<option value="bt12_Arresterdramon">Arresterdramon</option>
-				<option class="iroaka" value="bt12_Gallantmon">Gallantmon</option>
-				<option class="iroao" value="bt12_Imperialdramon">Imperialdramon</option>
-				<option class="irokiiro" value="bt12_ShineGreymon">ShineGreymon</option>
-				<option class="iromurasaki" value="bt13_Belphemon">Belphemon</option>
-				<option class="iroao" value="bt13_MirageGaogomon_BurstMode">MirageGaogamon: Burst Mode</option>
-				<option class="iromurasaki" value="bt13_Ravemon_BurstMode">Ravemon: Burst Mode</option>
-				<option class="iromidori" value="bt13_Rosemon_BurstMode">Rosemon: Burst Mode</option>
-				<option value="bt13_RoyalKnight">Royal Knight</option>
-				<option class="irokiiro" value="bt13_ShineGreymon_BurstMode">ShineGreymon: Burst Mode</option>
-				<option class="irokuro" value="bt14_D-Brigade">D-Brigade</option>
-				<option class="iromidori" value="bt14_LilymonACE">Lilymon ACE</option>
-				<option class="iromurasaki" value="bt14_Loogamon">Loogamon</option>
-				<option class="irokiiro" value="bt14_MagnaAngemonACE">MagnaAngemon ACE</option>
-				<option class="iroaka" value="bt14_MetalGreymonACE">MetalGreymon ACE</option>
-				<option class="iroao" value="bt14_ZudomonACE">Zudomon ACE</option>
-				<option class="irokuro" value="ex4_OmnimonAlter-S">Omnimon Alter-S</option>
-				<option class="iroao" value="ex4_GreyKnightsmon">GreyKnightsmon</option>
-				<option class="iromurasaki" value="ex4_Ravemon">Ravemon</option>
-				<option class="iromidori" value="ex4_AllianceLopmon">Alliance Lopmon & Terriermon</option>
-				<option class="iromidori" value="rb1_Angoramon">Angoramon</option>
-				<option class="iroaka" value="rb1_Gammamon">Gammamon</option>
-				<option class="iroao" value="rb1_Jellymon">Jellymon</option>
-			</select>
-				<a href="game.html" class="myButton">let it rip</a>
-			</form>
-			<p></p>
+		<div id="deckpreview">
 			<div id="sample1"></div>
 			<div id="sample2"></div>
+			<div id="gamebtns">
+				<a href="training.html" class="myButton">Training</a>
+				<a href="game_bot.html" class="myButton">Bot Mode</a>
+			</div>
 		</div>
-	</div>
+		</div>
+	</div>	
 </body>
 </html>
 <script>
-let egg_stack = [];
-let deck_stack = [];
-function setCookie(c_name,value,exdays){
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie=c_name + "=" + c_value;
-}
-function printEgg(value, index, array) {
-  console.log(value);
-	var imageParent = document.getElementById("sample1");
-	var image = document.createElement("img");
-  image.id = value;
-  image.src = "assets/cards/" + value + ".webp";
-  imageParent.appendChild(image);
-}
-function printDeck(value, index, array) {
-  console.log(value);
-	var imageParent = document.getElementById("sample2");
-	var image = document.createElement("img");
-  image.id = value;
-  image.src = "assets/cards/" + value + ".webp";
-  imageParent.appendChild(image);
-}
-$("#cars").change(function(){
-  let valor = $(this).val();  
-	document.getElementById("sample1").innerHTML = "";
-	document.getElementById("sample2").innerHTML = "";
-  egg_stack = decks.find(x => x.id === valor).egg_stack;
-	deck_stack = decks.find(y => y.id === valor).deck_stack;
-	console.log("egg_stack");
-	egg_stack.forEach(printEgg);
-	console.log("deck_stack");
-	deck_stack.forEach(printDeck);
-	setCookie("tamago",egg_stack,7);
-	setCookie("deku",deck_stack,7);
-	$("#sample1").children('img').hover(function(){
-		$(".previa").attr('src',$(this).attr('src'));
+	//document.addEventListener('contextmenu', event => event.preventDefault());
+	let egg_stack = [];
+	let deck_stack = [];
+	function printEgg(value, index, array) {
+		console.log(value);
+		// Dividir a string usando o caractere "-"
+		let partes = value.split("-");
+		// A parte que você está procurando é a primeira parte do array resultante
+		let prefix = partes[0];
+		var imageParent = document.getElementById("sample1");
+		var image = document.createElement("img");
+		image.id = value;
+		image.src = "assets/cards/default/" + prefix + "/" + value + ".webp";
+		imageParent.appendChild(image);
+	}
+	function printDeck(value, index, array) {
+		console.log(value);
+		let partes = value.split("-");
+		let prefix = partes[0];
+		var imageParent = document.getElementById("sample2");
+		var image = document.createElement("img");
+		image.id = value;
+		image.src = "assets/cards/default/" + prefix + "/" + value + ".webp";
+		//image.src = "https://world.digimoncard.com/images/cardlist/card/" + value + ".png";
+		imageParent.appendChild(image);
+	}
+	$("#dekusu").change(function(){
+		let valor = $(this).val();  
+		document.getElementById("sample1").innerHTML = "";
+		document.getElementById("sample2").innerHTML = "";
+		egg_stack = decks.find(x => x.id === valor).egg_stack;
+		deck_stack = decks.find(y => y.id === valor).deck_stack;
+		console.log("egg_stack");
+		egg_stack.forEach(printEgg);
+		console.log("deck_stack");
+		deck_stack.forEach(printDeck);
+		sessionStorage.setItem('tamago', egg_stack);
+		sessionStorage.setItem('deku', deck_stack);
+		$("#sample1").children('img').hover(function(){
+			$(".previa").attr('src',$(this).attr('src'));
+		});
+		$("#sample2").children('img').hover(function(){
+			$(".previa").attr('src',$(this).attr('src'));
+		});
+		document.getElementById('gamebtns').style.display = "initial";
 	});
-	$("#sample2").children('img').hover(function(){
-		$(".previa").attr('src',$(this).attr('src'));
+	$(document).on('change', '.file-upload-button', function(event) {
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var jsonObj = JSON.parse(event.target.result);
+			document.getElementById("sample1").innerHTML = "";
+			document.getElementById("sample2").innerHTML = "";
+			egg_stack = jsonObj.egg_stack;
+			deck_stack = jsonObj.deck_stack;
+			console.log("egg_stack");
+			egg_stack.forEach(printEgg);
+			console.log("deck_stack");
+			deck_stack.forEach(printDeck);
+			sessionStorage.setItem('tamago', egg_stack);
+			sessionStorage.setItem('deku', deck_stack);
+			$("#sample1").children('img').hover(function(){
+				$(".previa").attr('src',$(this).attr('src'));
+			});
+			$("#sample2").children('img').hover(function(){
+				$(".previa").attr('src',$(this).attr('src'));
+			});
+		}
+		reader.readAsText(event.target.files[0]);
 	});
-});
 </script>
