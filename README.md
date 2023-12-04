@@ -24,7 +24,7 @@
   <a href="#credits">Credits</a> 
 </p>
 
-![screenshot]([https://i.ibb.co/K6SFdPc/ezgif-3-9108c5faf8.gif])
+![screenshot](https://i.ibb.co/K6SFdPc/ezgif-3-9108c5faf8.gif)
 
 ## Key Features
 
