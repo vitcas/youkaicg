@@ -24,7 +24,7 @@
   <a href="#credits">Credits</a> 
 </p>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+![screenshot]([https://i.ibb.co/K6SFdPc/ezgif-3-9108c5faf8.gif])
 
 ## Key Features
 
