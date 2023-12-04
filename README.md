@@ -1,7 +1,7 @@
-Made my own simulator for a certain dinosaur card game since there are not an official yet.
-You can ask for the assets here : https://discord.gg/JfhUy5TsvQ
-Video preview : https://streamable.com/nd23m6
-API: https://github.com/vitcas/youkaicg-api
+Made my own simulator for a certain dinosaur card game since there are not an official yet.<br>
+You can ask for the assets here : https://discord.gg/JfhUy5TsvQ<br>
+Video preview : https://streamable.com/nd23m6<br>
+API: https://github.com/vitcas/youkaicg-api<br>
 ### How to play
 - Pick a deck to show the preview
 ### Features
