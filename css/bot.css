@@ -1,0 +1,91 @@
+.bot_area{
+	position: absolute;
+	display: none;
+	top:100px;
+	left:10px;
+	background-color: rgba(226, 27, 130, 0.51);
+	border:5px solid red;
+	margin:10px;
+	width: 1200px;
+	height: 510px;
+	padding: 1px;
+}
+#maxim{
+	position:absolute;
+	left:1280px;
+	top:710px;
+	width:60px;
+}
+#minim{
+	position:absolute;
+	top: 0px;
+  right: 0px;
+	width:25px !important;
+	height:25px !important;
+}
+.dice{
+	position:absolute;
+	left:1210px;
+	top:710px;
+}
+#log{
+	background-color: black;
+	float:left;
+	width: 200px;
+	height: 500px;
+	margin: 1px;
+	overflow: auto;
+}
+.report{
+	color: #f24bbd;
+	border:1px solid #695964;
+	width:92%;
+	margin:3px;
+	padding:3px;
+}
+.setup{
+	float:left;
+	text-align:center;
+	overflow:auto;
+	margin:2px;
+	width: 200px;
+}
+.setup img{
+	width:150px;
+}
+#eggarea{
+	float:left;
+	text-align:center;
+	overflow:hide;
+	border: 2px solid #339ed4;
+	margin:2px;
+	width: 160px;
+	height: 495px;
+}
+#eggarea img{
+	width:150px;
+}
+.stack2{
+	position:relative;
+	top:270px;
+}
+.stack3{
+	position:relative;
+	top:5px;
+}
+.stack4{
+	position:relative;
+	top:-253px;
+}
+.stack5{
+	position:relative;
+	top:-510px;
+}
+.stack6{
+	position:relative;
+	top:-768px;
+}
+.stack7{
+	position:relative;
+	top:-1026px;
+}

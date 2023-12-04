@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <meta charset="utf-8" />
+    <meta lang="eng" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/game.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/konva.min.js"></script>
+		<script src="js/general.js"></script>
+		<script src="js/logic.js"></script>
+    <script src="js/magic.js"></script> 
+    <title>youkaiCG</title>
+  </head>
+  <body>
+    <div id="main"> 
+      <div id="hand">
+        <span>Cards in hand: </span><span id="hand_count">0</span>
+        <br>
+      </div>
+			<div class="previa"><img id="cadet" src="img/dmc.png"></div> 
+      <div id="container"></div>
+			<div id="sec_area">
+				<button id="btnsec1" onclick="showSec()">Look 1</button>
+				<button id="btnsec2" onclick="recovery()">Recovery</button>
+			</div>		
+			<div id="menu" class="manu">
+				<div>
+					<button id="atk-button">Attack</button>
+					<button id="delete-button">Trash</button>
+				</div>
+			</div>
+			<span id="phasetext" class="gameflow">Breeding Phase</span>
+      <img id="egg_cover" class="digicard" src="assets/sleeves/294b7c16a5912f7000a353142e4ac566.jpeg" onclick="breed()">
+      <img id="deck_cover" class="digicard" src="assets/sleeves/jeane.jpg" onclick="draw()">
+			<img id="trash" class="digicard" src="" onclick="showTrash()">		
+			<span class="conut" id="sec_count">0</span>
+      <span class="conut" id="egg_count">4</span>
+      <span class="conut" id="deck_count">50</span>
+      <span class="conut" id="trash_count">0</span>
+			<div id="showcase">
+				<img id="exit" src="img/close.png" onclick="closeShow()">
+				<div id="inside"></div>
+			</div>
+      <img id="marker" src="assets/counters/smile.png">
+			<div id="comando">	
+				
+				<button id="btndeck" onclick="showDeck()">Look 1</button>
+				<button id="saturn" onclick="nextPhase()">Next Phase</button>		
+				<button id="tokenbt" onclick="token()">Token</button>		
+				<span class="tutu">Turn: </span><span class="tutu" id="turntxt">0</span>	
+				<span class="memo">Memory: </span><span class="memo" id="memtxt">0</span> 	
+				<br><br>
+				<a href="https://world.digimoncard.com/rule/pdf/manual.pdf?070723">Rules</a> 
+				<a href="https://rentry.co/qnxd7/raw">Banlist</a> 
+				<a href="https://rentry.co/ss6xp/raw">Erratas</a> 
+				<a href="https://youkaicg.neocities.org/glossary">Keywords</a> 
+			</div>			
+			<div id="output">
+				<p id="cardef" class="efekt">Select card...</p>
+				<p id="cardsour" class="efekt"></p>
+			</div>
+			<div id="menucard2" disabled>
+				<button id="btnPlay" onclick="handPlay()" disabled>Play</button>
+				<button id="btnDigivolve" onclick="digivolve()" disabled>Digivolve</button>
+			</div>
+    </div>
+  </body>
+</html>
+<script>
+	//document.addEventListener('contextmenu', event => event.preventDefault());
+	let suspklik = 0;
+	startGame(1);
+	const regex = /(?<=[0-9]\/)(.*)(?=.webp)/g;
+	let currentShape;
+  var width = 900;
+  var height = 500;
+  var stage = new Konva.Stage({
+    container: 'container',
+    width: width,
+    height: height,
+  });
+  var rectX = stage.width() / 2 - 280;
+  var rectY = stage.height() / 2 - 135;
+  var layer = new Konva.Layer();
+  stage.add(layer);
+  var tempLayer = new Konva.Layer();
+  stage.add(tempLayer);
+  var box = new Konva.Rect({
+    x: rectX,
+    y: rectY,
+    width: 83,
+    height: 117,
+    fill: 'rgba(244, 159, 203, 0.4)',
+    stroke: 'black',
+    strokeWidth: 2,
+  });
+  layer.add(box);
+  var text = new Konva.Text({
+  	text: 'futabu',
+    fill: 'blue',
+  });
+  layer.add(text);
+	var selectionRectangle = new Konva.Rect({
+    fill: 'rgba(0,0,255,0.5)',
+    visible: false,
+  });
+  layer.add(selectionRectangle);
+	var tr = new Konva.Transformer({
+		resizeEnabled: false,
+		rotateEnabled: false,
+		borderStroke: 'yellow',
+    borderStrokeWidth: 5,
+	});
+  layer.add(tr);
+	var x1, y1, x2, y2;
+  stage.on('mousedown touchstart', (e) => {
+		// do nothing if we mousedown on any shape
+		if (e.target !== stage) {
+      return;
+    }
+    e.evt.preventDefault();
+    x1 = stage.getPointerPosition().x;
+    y1 = stage.getPointerPosition().y;
+    x2 = stage.getPointerPosition().x;
+    y2 = stage.getPointerPosition().y;
+    selectionRectangle.visible(true);
+    selectionRectangle.width(0);
+    selectionRectangle.height(0);
+  });
+	stage.on('mousemove touchmove', (e) => {
+    // do nothing if we didn't start selection
+    if (!selectionRectangle.visible()) {
+      return;
+    }
+    e.evt.preventDefault();
+    x2 = stage.getPointerPosition().x;
+    y2 = stage.getPointerPosition().y;
+    selectionRectangle.setAttrs({
+      x: Math.min(x1, x2),
+      y: Math.min(y1, y2),
+      width: Math.abs(x2 - x1),
+      height: Math.abs(y2 - y1),
+    });
+  });
+  stage.on('mouseup touchend', (e) => {
+    // do nothing if we didn't start selection
+    if (!selectionRectangle.visible()) {
+      return;
+    }
+    e.evt.preventDefault();
+    // update visibility in timeout, so we can check it in click event
+    setTimeout(() => {
+      selectionRectangle.visible(false);
+    });
+    var shapes = stage.find('.card');
+    var box2 = selectionRectangle.getClientRect();
+    var selected = shapes.filter((shape) =>
+      Konva.Util.haveIntersection(box2, shape.getClientRect())
+    );
+    tr.nodes(selected);
+  });
+	stage.on('click tap', function (e) {
+    // if we are selecting with rect, do nothing
+    if (selectionRectangle.visible()) {
+      return;
+    }
+    // if click on empty area - remove all selections
+    if (e.target === stage) {
+      tr.nodes([]);
+      return;
+    }
+    // do nothing if clicked NOT on our rectangles
+    if (!e.target.hasName('card')) {
+      return;
+    }
+    // do we pressed shift or ctrl?
+    const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+    const isSelected = tr.nodes().indexOf(e.target) >= 0;
+    if (!metaPressed && !isSelected) {
+      // if no key pressed and the node is not selected
+      // select just one
+      tr.nodes([e.target]);
+    } else if (metaPressed && isSelected) {
+      // if we pressed keys and node was selected
+      // we need to remove it from selection:
+      const nodes = tr.nodes().slice(); // use slice to have new copy of array
+      // remove node from array
+      nodes.splice(nodes.indexOf(e.target), 1);
+      tr.nodes(nodes);
+    } else if (metaPressed && !isSelected) {
+      // add the node into selection
+      const nodes = tr.nodes().concat([e.target]);
+      tr.nodes(nodes);
+    }
+  });
+	var menuNode = document.getElementById('menu');  
+  window.addEventListener('click', () => {
+    menuNode.style.display = 'none';
+  });
+	stage.on('dblclick', function (e) {
+		e.evt.preventDefault();
+		if (e.target === stage)
+			return;
+		currentShape = e.target;
+		if (suspklik < 1) {
+			currentShape.rotate(90);
+			currentShape.move({x: 140, y: 40});
+			suspklik++;
+		}
+		else{
+			currentShape.rotate(-90);
+			currentShape.move({x: -140, y: -40});
+			suspklik--;
+		}
+	});
+	document.getElementById('delete-button').addEventListener('click', () => {
+		currentShape.destroy();
+		//layer.draw();
+		if (currentShape.attrs.name != 'token'){
+		let ima = currentShape.attrs.image.src;
+		document.getElementById("trash").src = ima;
+		let trator = ima.match(regex);
+		trash_stack.push(trator[0]);
+		trash++;
+		document.getElementById("trash_count").innerHTML = trash;
+		audio3.play();
+		tr.nodes([]);
+		}
+	});
+	document.getElementById('atk-button').addEventListener('click', () => {
+		currentShape.rotate(90);
+		currentShape.move({x: 140, y: 40});
+		let ima = currentShape.attrs.image.src;
+		let realcard = ima.match(regex);
+		//selected_card = realcard[0]
+		let xxx = loadCard();
+		console.log(xxx);
+	});
+	stage.on('dragstart', function (e) {
+    e.target.moveTo(tempLayer);
+    layer.draw();
+    text.text('Moving ' + e.target.name());
+  });
+	stage.on('contextmenu', function (e) {
+		// prevent default behavior
+		e.evt.preventDefault();
+		if (e.target === stage) {
+			// if we are on empty place of the stage we will do nothing
+			return;
+		}
+		currentShape = e.target;
+		//console.log(currentShape);
+		// show menu
+		menuNode.style.display = 'initial';
+		var containerRect = stage.container().getBoundingClientRect();
+		menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
+		menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
+	});
+</script>
