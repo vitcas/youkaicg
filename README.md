@@ -1,6 +1,3 @@
-![](https://i.postimg.cc/mr1nt14q/output-onlinepngtools.png)
-![](https://i.postimg.cc/d11JtkKg/Screenshot-1.png)
-
 Made my own simulator for a certain dinosaur card game since there are not an official yet.
 ### How to play
 - Download the latest release
@@ -13,5 +10,4 @@ Made my own simulator for a certain dinosaur card game since there are not an of
 - 42 official decks ready to play!
 - No internet required
 ### TO DO
-- Suspend cards
-- Security recover
+what
