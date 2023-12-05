@@ -35,23 +35,6 @@
 
 ## How To Use
 
-To clone and run this application, you'll need [Python](https://www.python.org/downloads/), [Flask](https://flask.palletsprojects.com/en/3.0.x/installation/) and [MongoDB](https://www.mongodb.com). 
-From your command line:
-
-```bash
-# Go into the repository
-$ cd directory
-
-# Clone this repository
-$ pip  install  Flask
-
-# Install dependencies
-$ npm install
-
-# Run the app
-$ npm start
-```
-
 ## Download
 
 You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest version of youkaicg for Windows.
