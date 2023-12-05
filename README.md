@@ -1,7 +1,7 @@
 
 # youkaicg
 
-<h4 align="center">Made my own simulator for a certain dinosaur card game since there are not an official yet. Built on top of <a href="http://electron.atom.io" target="_blank">Electron</a>.</h4>
+<h4 align="center">Made my own simulator for a certain dinosaur card game. Built on top of <a href="http://electron.atom.io" target="_blank">Electron</a>.</h4>
 
 <p align="center">
   <a href="https://badge.fury.io/js/electron-markdownify">
